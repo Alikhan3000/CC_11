@@ -9,7 +9,7 @@ class Book {                                        //created a class with 2 str
     }
 
     getDetails() {                                  //method that returns a formatted string of book details 
-        return `Titile: ${this.title}, Author: ${this.author}, ISBN: ${this.isbn}, Copies: ${this.copies}`
+        return `Title: ${this.title}, Author: ${this.author}, ISBN: ${this.isbn}, Copies: ${this.copies}`
     }
 
     updateCopies(quantity){                         //method with 1 input that modifies available copies;  
@@ -67,16 +67,33 @@ console.log(borrower1.borrowedBooks);
 class Library {                                 //created a class with 2 arrays
     constructor(){
         this.books = [];
-        this.borrowBook = [];
+        this.borrowers = [];
     }
 
     addBook(book){                              //this method adds a new book into the books array using .push
         this.books.push(book);
     }
 
+    addBorrower(borrower){                      //this method adds a new borrower intothe borrowers array
+        this.borrowers.push(borrower);
+    }
+
     listBooks(){                                //this method logs all books' details by utilizing a getDetails method from book class
         this.books.forEach(book => console.log(book.getDetails()))
     }
+
+    //tast #4 method:
+    lendBook(borrowerId, isbn){                 //created a method that checks if the given id is matched with any in the array
+        let borrower = this.borrowers.find(borrower => borrower.borrowerId === borrowerId);
+        let book = this.books.find(book => book.isbn === isbn);
+        
+
+            if(!book || !borrower || book.copies > 0){      //if statement checks if coppies are > 1 and if books and borrower exist
+                book.updateCopies(-1);                      //the book's copies are reduced by 1
+                borrower.borrowBook(book.title);
+
+    }}
+
 
 }
 
@@ -86,3 +103,14 @@ const library = new Library();
 library.addBook(book1);         //added a book to the books array using addbook method 
 library.listBooks();            //logged the output using the test data
 // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+
+
+//Task 4: Implementing Book Borrowing
+library.addBorrower(borrower1); //added a borrower1 to the array 
+
+
+library.lendBook(201, 123456);
+console.log(book1.getDetails());  //logged the details of the book   
+// Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
+console.log(borrower1.borrowedBooks);
+// Expected output: ["The Great Gatsby"]
