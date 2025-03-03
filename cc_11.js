@@ -82,18 +82,30 @@ class Library {                                 //created a class with 2 arrays
         this.books.forEach(book => console.log(book.getDetails()))
     }
 
-    //tast #4 method:
-    lendBook(borrowerId, isbn){                 //created a method that checks if the given id is matched with any in the array
+    //task #4 method:
+    lendBook(borrowerId, isbn){                 //created a method in Library class that checks if the given id is matched with any in the array
         let borrower = this.borrowers.find(borrower => borrower.borrowerId === borrowerId);
         let book = this.books.find(book => book.isbn === isbn);
         
 
-            if(!book || !borrower || book.copies > 0){      //if statement checks if coppies are > 1 and if books and borrower exist
+            if(book && borrower && book.copies > 0){      //if statement checks if coppies are > 1 and if books and borrower exist using && (and statement; all of the conditions must be satisfied)
                 book.updateCopies(-1);                      //the book's copies are reduced by 1
                 borrower.borrowBook(book.title);
 
     }}
 
+    //task #5 method:
+    returnBook(borrowerId, isbn){               //created a method in Library class 
+        let borrower = this.borrowers.find(borrower => borrower.borrowerId === borrowerId);
+        let book = this.books.find(book => book.isbn === isbn);
+
+        if (book && borrower){                  //if statement checks if the book and borrower are defined
+            book.updateCopies(1);               //copies are increased by 1
+            borrower.returnBook(book.title);    //reurns the book to Borrower array
+        }
+
+
+    }
 
 }
 
@@ -114,3 +126,12 @@ console.log(book1.getDetails());  //logged the details of the book
 // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
 console.log(borrower1.borrowedBooks);
 // Expected output: ["The Great Gatsby"]
+
+
+//Task 5: Implementing Book Returns
+
+library.returnBook(201, 123456);
+console.log(book1.getDetails());
+// Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+console.log(borrower1.borrowedBooks);
+// Expected output: []
